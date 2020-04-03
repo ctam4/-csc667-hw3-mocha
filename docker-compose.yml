@@ -1,0 +1,62 @@
+# docker-compose.yml
+version: "3"
+
+services:
+  redis:
+    image: "redis:5.0.8"
+    ports:
+      - "6379:6379"
+  frontend:
+    image: "node:12.15.0"
+    user: "node"
+    environment:
+      NODE_ENV: "development"
+    working_dir: /home/node/app/frontend/
+    volumes:
+      - .:/home/node/app/
+      - ./node_modules/:/home/node/app/node_modules/:ro
+    command: "npm run build"
+  backend-fileServer:
+    image: "node:12.15.0"
+    ports:
+      - "4000:4000"
+      - "4443:4443"
+    environment:
+      NODE_ENV: "development"
+    working_dir: /home/node/app/backend/fileServer/
+    volumes:
+      - .:/home/node/app/:ro
+      - ./node_modules/:/home/node/app/node_modules/:ro
+    command: "npm run start-watch"
+  backend-api:
+    image: "node:12.15.0"
+    ports:
+      - "6000:6000"
+      - "6443:6443"
+    depends_on:
+      - redis
+    environment:
+      NODE_ENV: "development"
+      REDIS_HOST: "redis"
+    working_dir: /home/node/app/backend/api/
+    volumes:
+      - .:/home/node/app/:ro
+      - ./node_modules/:/home/node/app/node_modules/:ro
+    command: "npm run start-watch"
+  backend-gateway:
+    image: "node:12.15.0"
+    ports:
+      - "5000:5000"
+      - "5443:5443"
+    depends_on:
+      - backend-api
+      - backend-fileServer
+    environment:
+      NODE_ENV: "development"
+      API_HOST: "backend-api"
+      FILESERVER_HOST: "backend-fileServer"
+    working_dir: /home/node/app/backend/gateway/
+    volumes:
+      - .:/home/node/app/:ro
+      - ./node_modules/:/home/node/app/node_modules/:ro
+    command: "npm run start-watch"
