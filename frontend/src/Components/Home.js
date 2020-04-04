@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import "../Home.css";
 
-class Landing extends Component {
-    render() {
+const Landing= () =>  {
+    
         return (
             <div className='back-page'>
                 <div className="container1">
@@ -16,7 +16,7 @@ class Landing extends Component {
                 </div>
             </div>
         );
-    }
+   
 }
 
 export default Landing;
