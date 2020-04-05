@@ -92,17 +92,19 @@ const SignUp = () => {
                 autoComplete="current-password"
               />
             </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              id="signup"
+            >
+              {" "}
+              Sign Up
+            </Button>
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            id="signup"
-          >
-            Sign Up
-          </Button>
-          <Grid container justify="center">
+
+          <Grid container spacing={2} justify="center">
             <Grid item>
               <Link to="/Login" href="/Login" variant="body2">
                 Already have an account? Sign in

@@ -2,11 +2,11 @@ import React from "react";
 import "./App.css";
 import Routes from "./Components/Routes";
 import { BrowserRouter as Router } from "react-router-dom";
-import Navbar from "./Components/Navbar.js";
+import NavBar from "./Components/NavBar";
 const App = () => {
   return (
     <Router>
-      <Navbar />
+      <NavBar />
       <Routes />
     </Router>
   );
