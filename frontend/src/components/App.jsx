@@ -1,8 +1,9 @@
 import React from "react";
-import "./App.css";
-import Routes from "./Components/Routes";
+import "../App.css";
+import Routes from "./Routes.jsx";
 import { BrowserRouter as Router } from "react-router-dom";
-import NavBar from "./Components/NavBar";
+import NavBar from "./NavBar.jsx";
+
 const App = () => {
   return (
     <Router>
@@ -11,4 +12,5 @@ const App = () => {
     </Router>
   );
 };
+
 export default App;
