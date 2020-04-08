@@ -1,18 +1,36 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardMedia from "@material-ui/core/CardMedia";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    maxWidth: 900,
+    margin: "auto",
+    backgroundColor: "#fff8e1"
+  },
+  media: {
+    maxWidth: 700,
+    marginTop: theme.spacing(6),
+    marginBottom: theme.spacing(8),
+    margin: "auto",
+    height: 0,
+    paddingTop: "56.25%" // 16:9
+  }
+}));
 
 const Home = () => {
+  const classes = useStyles();
+
   return (
-    <div className="back-page">
-      <div className="container1">
-        <h1 className="welcome">Welcome Home</h1>
-        <div className="container">
-          <img
-            src="https://archive.org/download/under-construction/under-construction.jpg"
-            alt="logo"
-          />
-        </div>
-      </div>
-    </div>
+    <Card className={classes.root}>
+      <h1 align="center">Welcome Home</h1>
+      <CardMedia
+        className={classes.media}
+        image="https://archive.org/download/under-construction/under-construction.jpg"
+        title="home_page_logo"
+      />
+    </Card>
   );
 }
 
