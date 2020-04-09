@@ -1,90 +1,45 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import { TextField, Button, Grid } from "@material-ui/core";
+
 import { addNote } from "../redux/actions/actions";
-import {
-  TextField,
-  Button,
-  Grid,
-  AppBar,
-  Toolbar,
-  Typography
-} from "@material-ui/core";
 
-class NotesForm extends Component {
-  constructor(props) {
-    super(props);
+const useStyles = makeStyles(theme => ({
 
-    this.state = {
-      content: ""
-    };
-  }
+}));
 
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+const NotesForm = () => {
+  const classes = useStyles();
 
-  handleSubmission = e => {
+  const [content, setContent] = useState("");
+
+  const handleSubmission = (e) => {
     e.preventDefault();
-
-    let { content } = this.state;
-    if (content !== "") this.props.addNote(content);
-    this.setState({ content: "" });
+    if (content !== "") {
+      addNote(content);
+    }
+    setContent("");
   };
 
-  render() {
-    return (
-      <form
-        elevation={0}
-        style={{
-          maxWidth: 800,
-          padding: 0,
-          margin: "auto",
-          backgroundColor: "#fafafa"
-        }}
-      >
-        <AppBar
-          color="primary"
-          position="static"
-          style={{ marginTop: 10, height: 64 }}
-        >
-          <Toolbar style={{ padding: 5, height: 64 }}>
-            <Typography color="inherit">NOTE PAD</Typography>
-          </Toolbar>
-        </AppBar>
-
-        <Grid container style={{ margin: 16, padding: 16 }}>
-          <Grid xs={10} md={11} item style={{ paddingRight: 16 }}>
-            <TextField
-              required
-              type="text"
-              name="content"
-              placeholder="Add Todo here"
-              value={this.state.content}
-              onChange={this.handleChange}
-              onKeyPress={this.onInputKeyPress}
-              fullWidth
-            />
-          </Grid>
-          <Grid xs={2} md={1} item>
-            <Button
-              type="submit"
-              fullWidth
-              color="secondary"
-              variant="outlined"
-              onClick={this.handleSubmission}
-            >
-              Add
-            </Button>
-          </Grid>
+  return (
+    <form elevation={0} style={{ maxWidth: 800, padding: 0, margin: "auto", backgroundColor: "#fafafa" }}>
+      <Grid container style={{ margin: 16, padding: 16 }}>
+        <Grid xs={10} md={11} item style={{ paddingRight: 16 }}>
+          <TextField required type="text" name="content" placeholder="Add Todo here" value={content} onChange={(e) => setContent(e.target.value)} fullWidth />
         </Grid>
-      </form>
-    );
-  }
+        <Grid xs={2} md={1} item>
+          <Button type="submit" fullWidth color="secondary" variant="outlined" onClick={handleSubmission}>
+            Add
+          </Button>
+        </Grid>
+      </Grid>
+    </form>
+  );
 }
 
-export default connect(
-  null,
-  {
-    addNote: addNote
-  }
-)(NotesForm);
+const mapDispatchToProps = {
+  addNote: addNote,
+};
+
+export default connect(null, mapDispatchToProps)(NotesForm);

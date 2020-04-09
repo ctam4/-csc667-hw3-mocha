@@ -1,17 +1,24 @@
-import React, { Component } from 'react'
-import NotesForm from './NotesForm';
-import AllNotes from './AllNotes';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Container } from "@material-ui/core";
 
-export default class Notes extends Component {
-  render() {
-    return (
-      <React.Fragment>
-        
+import NotesForm from "./NotesForm.jsx";
+import AllNotes from "./AllNotes.jsx";
 
-        <NotesForm />
-        <hr />
-        <AllNotes />
-      </React.Fragment>
-    )
-  }
+const useStyles = makeStyles(theme => ({
+
+}));
+
+const Notes = () => {
+  const classes = useStyles();
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <NotesForm />
+      <hr />
+      <AllNotes />
+    </Container>
+  );
 }
+
+export default Notes;

@@ -1,19 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider as ReduxProvider } from "react-redux";
+import { createStore } from 'redux';
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
+import rootReducer from './redux/reducers/reducers';
 import theme from "./theme";
 import App from "./components/App.jsx";
 
 import * as serviceWorker from "./serviceWorker";
 
+const store = createStore(rootReducer);
+
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
+    <ReduxProvider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
+    </ReduxProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
