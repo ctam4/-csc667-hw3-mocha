@@ -14,6 +14,7 @@ const compression = require('compression');
 app.use(compression());
 
 app.use('/', require('./routes/root.js'));
+app.use('/stats', require('./routes/statsService.js'));
 
 http.createServer(app).listen(httpPort);
 https.createServer(httpsOptions, app).listen(httpsPort);
