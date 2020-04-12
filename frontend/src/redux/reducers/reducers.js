@@ -11,15 +11,14 @@ function rootReducer(state = initialState, action) {
         notes: [
           ...state.notes,
           {
-            content: action.content
+            content: action.content,
           }
         ]
       };
     case REMOVE_NOTE:
       return {
-        notes: state.notes.filter((note, index) => index !== action.id)
+        notes: state.notes.filter((note, index) => index !== action.id),
       };
-
     default:
       return state;
   }

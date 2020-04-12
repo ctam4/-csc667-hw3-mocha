@@ -4,7 +4,7 @@ export const REMOVE_NOTE = "REMOVE_NOTE";
 export const addNote = content => {
   return {
     type: ADD_NOTE,
-    content: content
+    content: content,
   };
 };
 
