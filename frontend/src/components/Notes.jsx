@@ -13,7 +13,7 @@ const Notes = () => {
   const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="md">
       <NotesForm />
       <hr />
       <AllNotes />

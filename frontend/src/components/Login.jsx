@@ -27,14 +27,12 @@ const SignIn = () => {
   const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="sm">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
+        <Typography component="h1" variant="h5">Sign in</Typography>
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -58,24 +56,11 @@ const SignIn = () => {
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            id="login"
-          >
-            Sign In
-          </Button>
+          <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+          <Button type="submit" fullWidth variant="contained" color="primary" id="login">Sign In</Button>
           <Grid container>
             <Grid container justify="center">
-              <Link to="/SignUp" href="/SignUp" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+              <Link to="/SignUp" href="/SignUp" variant="body2">Don't have an account? Sign Up</Link>
             </Grid>
           </Grid>
         </form>
