@@ -9,5 +9,8 @@ export const addNote = content => {
 };
 
 export const removeNote = id => {
-  return { type: REMOVE_NOTE, id: id };
+  return {
+    type: REMOVE_NOTE,
+    id: id,
+  };
 };

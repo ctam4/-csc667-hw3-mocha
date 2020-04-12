@@ -8,6 +8,7 @@ function rootReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_NOTE:
       return {
+        ...state,
         notes: [
           ...state.notes,
           {
@@ -17,6 +18,7 @@ function rootReducer(state = initialState, action) {
       };
     case REMOVE_NOTE:
       return {
+        ...state,
         notes: state.notes.filter((note, index) => index !== action.id),
       };
     default:

@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const NotesForm = () => {
+const NotesForm = ({ dispatch }) => {
   const classes = useStyles();
 
   const [content, setContent] = useState("");
@@ -26,7 +26,7 @@ const NotesForm = () => {
   const handleSubmission = (e) => {
     e.preventDefault();
     if (content !== "") {
-      addNote(content);
+      dispatch(addNote(content));
     }
     setContent("");
   };
