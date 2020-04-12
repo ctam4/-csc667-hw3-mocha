@@ -1,10 +1,10 @@
 import { ADD_NOTE, REMOVE_NOTE } from "../actions/actions";
 
-const initialState = {
+const DEFAULT_STATE = {
   notes: []
 };
 
-function rootReducer(state = initialState, action) {
+function rootReducer(state = DEFAULT_STATE, action) {
   switch (action.type) {
     case ADD_NOTE:
       return {

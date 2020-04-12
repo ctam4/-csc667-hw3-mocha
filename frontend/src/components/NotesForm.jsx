@@ -48,7 +48,7 @@ const NotesForm = ({ dispatch }) => {
 }
 
 const mapDispatchToProps = {
-  addNote: addNote,
+  addNote,
 };
 
 export default connect(null, mapDispatchToProps)(NotesForm);
