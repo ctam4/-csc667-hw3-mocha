@@ -12,17 +12,17 @@ const httpsOptions = {
   cert: fs.readFileSync('../../server.cert'),
 };
 
-httpApp.use("/api", proxy((process.env.API_HOST || "0.0.0.0") + ":6000", {
+httpApp.use("/api", proxy((process.env.API_HOST || "0.0.0.0") + ":" + (process.env.API_HTTP_PORT || "6000"), {
   https: false,
 }));
-httpApp.use("/", proxy((process.env.FILESERVER_HOST || "0.0.0.0") + ":4000", {
+httpApp.use("/", proxy((process.env.FILESERVER_HOST || "0.0.0.0") + ":" + (process.env.FILESERVER_HTTP_PORT || "4000"), {
   https: false,
 }));
 
-httpsApp.use("/api", proxy((process.env.API_HOST || "0.0.0.0") + ":6443", {
+httpsApp.use("/api", proxy((process.env.API_HOST || "0.0.0.0") + ":" + (process.env.API_HTTPS_PORT || "6443"), {
   https: true,
 }));
-httpsApp.use("/", proxy((process.env.FILESERVER_HOST || "0.0.0.0") + ":4443", {
+httpsApp.use("/", proxy((process.env.FILESERVER_HOST || "0.0.0.0") + ":" + (process.env.FILESERVER_HTTP_PORT || "4443"), {
   https: true,
 }));
 
