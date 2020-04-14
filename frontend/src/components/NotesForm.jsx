@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button, Grid } from "@material-ui/core";
 
-import { addNote } from "../redux/actions/actions";
+import { addNoteFromForm } from "../redux/actions/actions";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -18,17 +18,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const NotesForm = ({ dispatch }) => {
+export const NotesForm = () => {
+  const dispatch = useDispatch();
   const classes = useStyles();
-
   const [content, setContent] = useState("");
 
   const handleSubmission = (e) => {
     e.preventDefault();
     if (content !== "") {
-      dispatch(addNote(content));
+      dispatch(addNoteFromForm(content));
+      setContent("");
     }
-    setContent("");
   };
 
   return (
@@ -45,10 +45,4 @@ const NotesForm = ({ dispatch }) => {
       </form>
     </div>
   );
-}
-
-const mapDispatchToProps = {
-  addNote,
 };
-
-export default connect(null, mapDispatchToProps)(NotesForm);

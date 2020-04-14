@@ -2,8 +2,8 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container } from "@material-ui/core";
 
-import NotesForm from "./NotesForm.jsx";
-import AllNotes from "./AllNotes.jsx";
+import { NotesForm } from "./NotesForm.jsx";
+import { AllNotes } from "./AllNotes.jsx";
 
 const useStyles = makeStyles(theme => ({
 
