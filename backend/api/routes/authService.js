@@ -49,8 +49,8 @@ router.post('/create', async (req, res) => {
     // add to user array
     let user = {
       email: params.email.toLowerCase,
-      password: params.password
-    }
+      password: params.password,
+    };
     if (users.push(user)) {
       status = 'OK';
     }

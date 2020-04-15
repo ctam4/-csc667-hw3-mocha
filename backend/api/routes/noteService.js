@@ -15,11 +15,11 @@ router.use(async (req, res, next) => {
       method: 'post',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        token: params.token
-      })
+        token: params.token,
+      }),
     })
     .then((res) => {
       if (!res.ok) {
