@@ -20,8 +20,8 @@ export const AllNotes = () => {
       <ul>
         {notes.map((note, index) => (
           <ListItem>
-            <ListItemText>
-              {note}
+            <ListItemText >
+              {note.content}
               <ListItemSecondaryAction>
                 <IconButton onClick={() => dispatch(removeNote(index))}>
                   <DeleteOutlined />
