@@ -1,72 +1,73 @@
 const express = require('express');
 const router = express.Router();
-const bodyParser = require('body-parser');
-const multer = require('multer');
-const upload = multer();
-const session = require('express-session'); 
+const redis = require('../redis.js');
 
+let users = [
+  {
+    email: 'root@localhost',
+    password: '1234',
+  }
+];
 
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: true })); 
-router.use(upload.array());
-router.use(session({secret: "Your secret key"}));
-
-var Users = [];
-
-router.post('/auth/create', function(req, res){
-   if(!req.body.email || !req.body.password){
-      res.status("400");
-      res.send("Invalid information!");
-   } else {
-      Users.filter(function(user){
-         if(user.email === req.body.email){
-           message= "User already exists! try use different email";
-           res.send(message);
-         }
-      });
-      
-      var newUser = {firstname: req.body.firstname, lastname: req.body.lastname, 
-                     email: req.body.email, password: req.body.password};
-      Users.push(newUser);
-      req.session.user = newUser;
-     
-   }
+router.post('/authenticate', async (req, res) => {
+  const params = req.body;
+  let status, response;
+  // validate params
+  if (Object.keys(params).length == 1 && params.hasOwnProperty('token') && params.token.length > 0) {
+    // decode base64 token to two items
+    let decoded = atob(params.token).split(":");
+    decoded[0] = decoded[0].toLowerCase;
+    // validate with users array
+    if (users.some(({ email, password }) => email === decoded[0] && password === decoded[1])) {
+      status = 'OK';
+    }
+    else {
+      status = 'ERROR';
+      response = 'Invalid email or password.';
+    }
+    // increase redis counter
+    await redis.incr('calls');
+  }
+  else {
+    status = 'ERROR';
+    response = 'Invalid params.';
+  }
+  // send result
+  res.send({
+    status: status,
+    date: new Date(),
+    params: params,
+    response: response,
+  });
 });
 
-function checkSignIn(req, res){
-   if(req.session.user){
-      next();     //If session exists, proceed to page
-   } else {
-      var err = new Error("Not logged in!");
-      console.log(req.session.user);
-      next(err);  //Error, trying to access unauthorized page!
-   }
-}
-
-
-router.post('/auth/authenticate', checkSignIn, function(req, res){
-   console.log(Users);
-   if(!req.body.email || !req.body.password){
-      message= "Please enter both id and password";
-      res.send(message);
-   } else {
-      Users.filter(function(user){
-         if(user.email === req.body.email && user.password === req.body.password){
-            req.session.user = user;
-            message="log in information match";
-            res.send(message);
-         }
-      });
-      message= "Invalid credentials!";
-      res.send(message);
-   }
-});
-
-router.get('/logout', function(req, res){
-   req.session.destroy(function(){
-      console.log("user logged out.")
-   });
-  
+router.post('/create', async (req, res) => {
+  const params = req.body;
+  let status, response;
+  // validate params
+  if (Object.keys(params).length == 2 && params.hasOwnProperty('email') && params.email.length > 0 && params.hasOwnProperty('password') && params.password.length > 0) {
+    // add to user array
+    let user = {
+      email: params.email.toLowerCase,
+      password: params.password
+    }
+    if (users.push(user)) {
+      status = 'OK';
+    }
+    // increase redis counter
+    await redis.incr('calls');
+  }
+  else {
+    status = 'ERROR';
+    response = 'Invalid params.';
+  }
+  // send result
+  res.send({
+    status: status,
+    date: new Date(),
+    params: params,
+    response: response,
+  });
 });
 
 module.exports = router;
