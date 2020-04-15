@@ -2,29 +2,30 @@ const express = require('express');
 const router = express.Router();
 const redis = require('../redis.js');
 
-let users = [
-  {
-    email: 'root@localhost',
-    password: '1234',
-  }
-];
-
 router.post('/authenticate', async (req, res) => {
   const params = req.body;
   let status, response;
   // validate params
   if (Object.keys(params).length == 1 && params.hasOwnProperty('token') && params.token.length > 0) {
-    // decode base64 token to two items
-    let decoded = atob(params.token).split(":");
-    decoded[0] = decoded[0].toLowerCase;
-    // validate with users array
-    if (users.some(({ email, password }) => email === decoded[0] && password === decoded[1])) {
+    // retrieve from redis
+    await redis
+    .lrange('users', 0, -1)
+    .then((reply) => {
+      // validate email / password pair
+      if (reply.some(({ token }) => token === params.token)) {
+        status = 'OK';
+      }
+      else {
+        status = 'ERROR';
+        response = 'Invalid email or password.';
+      }
       status = 'OK';
-    }
-    else {
+      response = JSON.stringify(reply);
+    })
+    .catch((err) => {
       status = 'ERROR';
-      response = 'Invalid email or password.';
-    }
+      response = 'REDIS: ' + err;
+    });
     // increase redis counter
     await redis.incr('calls');
   }
@@ -46,14 +47,16 @@ router.post('/create', async (req, res) => {
   let status, response;
   // validate params
   if (Object.keys(params).length == 2 && params.hasOwnProperty('email') && params.email.length > 0 && params.hasOwnProperty('password') && params.password.length > 0) {
-    // add to user array
-    let user = {
-      email: params.email.toLowerCase,
-      password: params.password,
-    };
-    if (users.push(user)) {
+    // send to redis
+    await redis
+    .lpush('users', btoa(params.email.toLowerCase + ":" + params.password))
+    .then((reply) => {
       status = 'OK';
-    }
+    })
+    .catch((err) => {
+      status = 'ERROR';
+      response = 'REDIS: ' + err;
+    });
     // increase redis counter
     await redis.incr('calls');
   }
