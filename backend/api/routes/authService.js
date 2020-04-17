@@ -49,7 +49,7 @@ router.post('/create', async (req, res) => {
   if (Object.keys(params).length == 2 && params.hasOwnProperty('email') && params.email.length > 0 && params.hasOwnProperty('password') && params.password.length > 0) {
     // send to redis
     await redis
-    .lpush('users', btoa(params.email.toLowerCase + ":" + params.password))
+    .lpush('users', Buffer.from(params.email.toLowerCase + ":" + params.password).toString('base64'))
     .then((reply) => {
       status = 'OK';
     })

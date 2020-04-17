@@ -25,10 +25,15 @@ router.use(async (req, res, next) => {
       if (!res.ok) {
         throw new Error('error ' + res.status);
       }
-      return res.text();
+      return res.json();
     })
     .then((data) => {
-      authenticated = true;
+      if (data.status === 'ERROR') {
+        throw new Error(data.response);
+      }
+      else {
+        authenticated = true;
+      }
     })
     .catch(console.log);
   }
@@ -44,7 +49,7 @@ router.post('/get', async (req, res) => {
   // validate params
   if (Object.keys(params).length == 1) {
     // decode base64 token to two items
-    let decoded = atob(params.token).split(":");
+    let decoded = Buffer.from(params.token, 'base64').split(":");
     decoded[0] = decoded[0].toLowerCase;
     // retrieve from redis
     await redis
