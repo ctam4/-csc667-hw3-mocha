@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Button, TextField, Link, Grid, Typography, Container } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-
+import { Redirect } from "react-router-dom";
 import { apiUrl } from "../url";
-
+import {setPassword, setIsLoggedIn, setEmail } from "../redux/actions/actions.js";
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(6),
@@ -28,12 +28,16 @@ const useStyles = makeStyles(theme => ({
 
 const SignUp = () => {
   const dispatch = useDispatch();
-  const classes = useStyles();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+   const classes = useStyles();
+  const [email, setUserEmail] = useState("");
+  const [password, setUserPassword] = useState("");
+  const [nextPage, setNextPage] = useState(false);
+  dispatch(setPassword(password));
+  dispatch(setEmail(email));
 
   const handleSubmission = async (e) => {
     e.preventDefault();
+    
     if (email !== "" && password !== "") {
       await fetch(apiUrl + '/auth/create', {
         method: 'post',
@@ -58,13 +62,16 @@ const SignUp = () => {
         }
         else {
           alert('Sign-up successful.');
+          //loggin state will be recorded in the singin page
+          setNextPage(true);
           // TODO: redirect to login
+          
         }
       })
       .catch(alert);
     }
   };
-
+  
   return (
     <Container component="main" maxWidth="sm">
       <div className={classes.paper}>
@@ -75,10 +82,10 @@ const SignUp = () => {
         <form className={classes.form} onSubmit={(e) => handleSubmission(e)}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth id="email" label="Email Address" name="email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <TextField variant="outlined" required fullWidth id="email" label="Email Address" name="email" type="email" autoComplete="email" value={email} onChange={(e) => setUserEmail(e.target.value)} />
             </Grid>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <TextField variant="outlined" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" value={password} onChange={(e) => setUserPassword(e.target.value)} />
             </Grid>
             <Grid item xs={12}>
               <Button type="submit" fullWidth variant="contained" color="primary" id="signup">Sign Up</Button>
@@ -89,6 +96,7 @@ const SignUp = () => {
           </Grid>
         </form>
       </div>
+      {nextPage && <Redirect to="./LogIn" />}
     </Container>
   );
 };
