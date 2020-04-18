@@ -10,8 +10,3 @@ export const removeNote = id => ({
   type: REMOVE_NOTE,
   id: id,
 });
-
-export const addNoteFromForm = (content) => (dispatch, getState) => {
-  dispatch(addNote(content)); //debug
-  // TODO: API call
-};

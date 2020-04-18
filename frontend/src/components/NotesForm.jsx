@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button, Grid } from "@material-ui/core";
 
-import { addNoteFromForm } from "../redux/actions/actions";
+import { apiUrl } from "../url";
+import { addNote } from "../redux/actions/actions";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -23,10 +24,10 @@ export const NotesForm = () => {
   const classes = useStyles();
   const [content, setContent] = useState("");
 
-  const handleSubmission = (e) => {
+  const handleSubmission = async (e) => {
     e.preventDefault();
     if (content !== "") {
-      dispatch(addNoteFromForm(content));
+      dispatch(addNote(content));
       setContent("");
     }
   };

@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: 900,
     margin: "auto",
-    backgroundColor: "#fff8e1"
+    backgroundColor: "#fff8e1",
   },
   media: {
     maxWidth: 700,
@@ -15,8 +15,8 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(8),
     margin: "auto",
     height: 0,
-    paddingTop: "56.25%" // 16:9
-  }
+    paddingTop: "56.25%", // 16:9
+  },
 }));
 
 const Home = () => {

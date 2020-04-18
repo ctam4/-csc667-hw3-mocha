@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container } from "@material-ui/core";
 
@@ -10,6 +11,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Notes = () => {
+  const dispatch = useDispatch();
   const classes = useStyles();
 
   return (
