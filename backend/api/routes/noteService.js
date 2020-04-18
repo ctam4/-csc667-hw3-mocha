@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const fetch = require('cross-fetch');
 const redis = require('../redis.js');
 
 let gatewayUrl = process.env.GATEWAY_HOST || 'localhost';
