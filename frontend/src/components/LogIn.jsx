@@ -2,23 +2,13 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Avatar,
-  Button,
-  TextField,
-  Link,
-  Grid,
-  Typography,
-  Container
-} from "@material-ui/core";
+import { Avatar, Button, TextField, Link, Grid, Typography, Container } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Redirect } from "react-router-dom";
+
 import { apiUrl } from "../url";
-import {
-  setPassword,
-  setIsLoggedIn,
-  setEmail
-} from "../redux/actions/actions.js";
+import { setPassword, setIsLoggedIn, setEmail } from "../redux/actions/actions";
+
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(6),
@@ -57,44 +47,38 @@ const LogIn = () => {
         method: "post",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          token: Buffer.from(
-            userEmail.toLowerCase() + ":" + userPassword
-          ).toString("base64")
+          token: Buffer.from(userEmail.toLowerCase() + ":" + userPassword).toString("base64"),
         })
       })
-        .then(res => {
-          if (!res.ok) {
-            throw new Error("error " + res.status);
-          }
-          return res.json();
-        })
-        .then(data => {
-          if (data.status === "ERROR") {
-            throw new Error(data.response);
-          } else {
-            setCookie("token", data.params.token);
-            setUserIsLoggedIn(true);
-            // TODO: set redux login state
-            alert("Log-in successful." );
-            // TODO: redirect to notes
-          }
-        })
-        .catch(alert);
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("error " + res.status);
+        }
+        return res.json();
+      })
+      .then(data => {
+        if (data.status === "ERROR") {
+          throw new Error(data.response);
+        } else {
+          setCookie("token", data.params.token);
+          setUserIsLoggedIn(true);
+          alert("Log-in successful." );
+        }
+      })
+      .catch(alert);
     }
   };
-  
+
   return (
     <Container component="main" maxWidth="sm">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
-          Log-in
-        </Typography>
+        <Typography component="h1" variant="h5">Log-in</Typography>
         <form className={classes.form} onSubmit={e => handleSubmission(e)}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -137,9 +121,7 @@ const LogIn = () => {
               </Button>
             </Grid>
             <Grid item xs={12} justify="center">
-              <Link to="/SignUp" href="/SignUp" variant="body2">
-                Don't have an account? Sign Up
-              </Link>
+              <Link to="/SignUp" href="/SignUp" variant="body2">Don't have an account? Sign Up</Link>
             </Grid>
           </Grid>
         </form>

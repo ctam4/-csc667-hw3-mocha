@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const NotesForm = ({email,password}) => {
+export const NotesForm = ({ email, password }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const [notesinput, setContent] = useState("");
@@ -34,33 +34,31 @@ export const NotesForm = ({email,password}) => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          name:notesinput,
+          name: notesinput,
           token: Buffer.from(
             email.toLowerCase() + ":" + password
-          ).toString("base64")
+          ).toString("base64"),
         })
       })
-        .then(res => {
-          if (!res.ok) {
-            throw new Error("error " + res.status);
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("error " + res.status);
+        }
+        return res.json();
+      })
+      .then(data => {
+        if (data.status === "ERROR") {
+          throw new Error(data.response);
+        } else {
+          //add note old code
+          if (notesinput !== "") {
+            dispatch(addNote(notesinput));
+            setContent("");
           }
-          return res.json();
-        })
-        .then(data => {
-          if (data.status === "ERROR") {
-            throw new Error(data.response);
-          } else {
-            //add note old code
-            if (notesinput !== "") {
-              dispatch(addNote(notesinput));
-              setContent("");
-            }
-            // TODO: set redux login state
-            alert("User is loggedin.");
-            // TODO: redirect to notes
-          }
-        })
-        .catch(alert);
+          alert("User is loggedin.");
+        }
+      })
+      .catch(alert);
     }
   };
 

@@ -4,8 +4,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Button, TextField, Link, Grid, Typography, Container } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Redirect } from "react-router-dom";
+
 import { apiUrl } from "../url";
-import {setPassword, setIsLoggedIn, setEmail } from "../redux/actions/actions.js";
+import { setPassword, setIsLoggedIn, setEmail } from "../redux/actions/actions";
+
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(6),
@@ -28,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 
 const SignUp = () => {
   const dispatch = useDispatch();
-   const classes = useStyles();
+  const classes = useStyles();
   const [email, setUserEmail] = useState("");
   const [password, setUserPassword] = useState("");
   const [nextPage, setNextPage] = useState(false);
@@ -37,7 +39,6 @@ const SignUp = () => {
 
   const handleSubmission = async (e) => {
     e.preventDefault();
-    
     if (email !== "" && password !== "") {
       await fetch(apiUrl + '/auth/create', {
         method: 'post',
@@ -65,13 +66,12 @@ const SignUp = () => {
           //loggin state will be recorded in the singin page
           setNextPage(true);
           // TODO: redirect to login
-          
         }
       })
       .catch(alert);
     }
   };
-  
+
   return (
     <Container component="main" maxWidth="sm">
       <div className={classes.paper}>
