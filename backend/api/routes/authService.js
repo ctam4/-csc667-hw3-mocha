@@ -12,15 +12,13 @@ router.post('/authenticate', async (req, res) => {
     .lrange('users', 0, -1)
     .then((reply) => {
       // validate email / password pair
-      if (reply.some(({ token }) => token === params.token)) {
+      if (reply.some((token) => token === params.token)) {
         status = 'OK';
       }
       else {
         status = 'ERROR';
         response = 'Invalid email or password.';
       }
-      status = 'OK';
-      response = JSON.stringify(reply);
     })
     .catch((err) => {
       status = 'ERROR';
@@ -47,9 +45,10 @@ router.post('/create', async (req, res) => {
   let status, response;
   // validate params
   if (Object.keys(params).length == 2 && params.hasOwnProperty('email') && params.email.length > 0 && params.hasOwnProperty('password') && params.password.length > 0) {
+    // TODO: check for duplicates
     // send to redis
     await redis
-    .lpush('users', Buffer.from(params.email.toLowerCase + ":" + params.password).toString('base64'))
+    .lpush('users', Buffer.from(params.email.toLowerCase() + ":" + params.password).toString('base64'))
     .then((reply) => {
       status = 'OK';
     })

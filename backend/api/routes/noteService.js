@@ -50,7 +50,6 @@ router.post('/get', async (req, res) => {
   if (Object.keys(params).length == 1) {
     // decode base64 token to two items
     let decoded = Buffer.from(params.token, 'base64').split(":");
-    decoded[0] = decoded[0].toLowerCase;
     // retrieve from redis
     await redis
     .lrange(decoded[0], 0, -1)
