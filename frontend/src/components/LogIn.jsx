@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
+
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Avatar,
@@ -13,12 +14,10 @@ import {
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Redirect } from "react-router-dom";
+
 import { apiUrl } from "../url";
-import {
-  setPassword,
-  setIsLoggedIn,
-  setEmail
-} from "../redux/actions/actions.js";
+import { setPassword, setIsLoggedIn, setEmail } from "../redux/actions/actions.js";
+
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(6),
@@ -74,10 +73,8 @@ const LogIn = () => {
             throw new Error(data.response);
           } else {
             setCookie("token", data.params.token);
-
-            alert("Log-in successful.");
-
             dispatch(setIsLoggedIn(true));
+            alert("Log-in successful.");
           }
         })
         .catch(alert);

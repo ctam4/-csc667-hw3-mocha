@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
+
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button, Grid } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 
 import { apiUrl } from "../url";
-import { addNote, setIsLoggedIn } from "../redux/actions/actions";
 
 const useStyles = makeStyles(theme => ({
   paper: {

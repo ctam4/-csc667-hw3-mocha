@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Button, TextField, Link, Grid, Typography, Container } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Redirect } from "react-router-dom";
+
 import { apiUrl } from "../url";
+
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(6),
@@ -61,8 +64,6 @@ const SignUp = () => {
             alert('Sign-up successful.');
             //loggin state will be recorded in the singin page
             setNextPage(true);
-            // TODO: redirect to login
-
           }
         })
         .catch(alert);
