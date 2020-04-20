@@ -5,7 +5,6 @@ import { Avatar, Button, TextField, Link, Grid, Typography, Container } from "@m
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Redirect } from "react-router-dom";
 import { apiUrl } from "../url";
-import { setPassword, setIsLoggedIn, setEmail } from "../redux/actions/actions.js";
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(6),
@@ -32,8 +31,6 @@ const SignUp = () => {
   const [email, setUserEmail] = useState("");
   const [password, setUserPassword] = useState("");
   const [nextPage, setNextPage] = useState(false);
-  dispatch(setPassword(password));
-  dispatch(setEmail(email));
 
   const handleSubmission = async (e) => {
     e.preventDefault();

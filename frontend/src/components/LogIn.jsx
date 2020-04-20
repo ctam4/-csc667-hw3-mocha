@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { connect } from "react-redux";
 import { useCookies } from "react-cookie";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -41,10 +40,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const LogIn = () => {
-
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.isLoggedIn);
-
   const classes = useStyles();
   const [cookies, setCookie] = useCookies(["token"]);
   const [userEmail, setUserEmail] = useState("");
