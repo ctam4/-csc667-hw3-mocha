@@ -1,45 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const fetch = require('cross-fetch');
 const redis = require('../redis.js');
-
-let gatewayUrl = process.env.GATEWAY_HOST || 'localhost';
-if (process.env.GATEWAY_HTTP_PORT) {
-  gatewayUrl += ':' + process.env.GATEWAY_HTTP_PORT;
-}
 
 router.use(async (req, res, next) => {
   const params = req.body;
-  let authenticated = false;
   if (params.hasOwnProperty('token') && params.token.length > 0) {
-    await fetch('http://' + gatewayUrl + '/auth/authenticate', {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        token: params.token,
-      }),
-    })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error('error ' + res.status);
-      }
-      return res.json();
-    })
-    .then((data) => {
-      if (data.status === 'ERROR') {
-        throw new Error(data.response);
-      }
-      else {
-        authenticated = true;
+    // retrieve from redis
+    await redis
+    .lrange('users', 0, -1)
+    .then((reply) => {
+      // validate email / password pair
+      if (!reply.some((token) => token === params.token)) {
+        res.sendStatus(401).end();
       }
     })
-    .catch(console.log);
-  }
-  if (!authenticated) {
-    res.sendStatus(401).end();
+    .catch((err) => {
+      res.sendStatus(500).end();
+    });
   }
   next();
 });
@@ -50,7 +27,7 @@ router.post('/get', async (req, res) => {
   // validate params
   if (Object.keys(params).length == 1) {
     // decode base64 token to two items
-    let decoded = Buffer.from(params.token, 'base64').split(":");
+    let decoded = Buffer.from(params.token, 'base64').toString().split(":");
     // retrieve from redis
     await redis
     .lrange(decoded[0], 0, -1)
@@ -84,8 +61,7 @@ router.post('/create', async (req, res) => {
   // validate params
   if (Object.keys(params).length == 2 && params.hasOwnProperty('notesinput') && params.notesinput.length > 0) {
     // decode base64 token to two items
-    let decoded = atob(params.token).split(":");
-    decoded[0] = decoded[0].toLowerCase;
+    let decoded = Buffer.from(params.token, 'base64').toString().split(":");
     // send to redis
     await redis
     .lpush(decoded[0], params.notesinput)

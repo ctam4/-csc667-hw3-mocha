@@ -18,7 +18,7 @@ app.use(cors());
 
 app.use('/', require('./routes/root.js'));
 app.use('/auth', require('./routes/authService.js'));
-app.use('/note', require('./routes/noteService.js'));
+app.use('/notes', require('./routes/notesService.js'));
 app.use('/stats', require('./routes/statsService.js'));
 
 http.createServer(app).listen(httpPort);
