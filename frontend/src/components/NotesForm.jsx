@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button, Grid } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
@@ -22,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 export const NotesForm = () => {
   const dispatch = useDispatch();
+  const [cookies, setCookie] = useCookies(["token"]);
   const isUserLoggedIn = useSelector(state => state.isLoggedIn);
   const classes = useStyles();
   const [notesinput, setContent] = useState("");
@@ -29,9 +31,31 @@ export const NotesForm = () => {
   const handleSubmission = async e => {
     e.preventDefault();
 
-    //add note old code
     if (notesinput !== "") {
-      dispatch(addNote(notesinput));
+      //dispatch(addNote(notesinput));
+      await fetch(apiUrl + '/notes/create', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: cookies.token,
+          notesinput: notesinput,
+        }),
+      })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('error ' + res.status);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.status === 'ERROR') {
+          throw new Error(data.response);
+        }
+      })
+      .catch(alert);
       setContent("");
     }
   };
