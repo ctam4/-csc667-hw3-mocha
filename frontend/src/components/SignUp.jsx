@@ -4,10 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Button, TextField, Link, Grid, Typography, Container } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Redirect } from "react-router-dom";
-
 import { apiUrl } from "../url";
-import { setPassword, setIsLoggedIn, setEmail } from "../redux/actions/actions";
-
+import { setPassword, setIsLoggedIn, setEmail } from "../redux/actions/actions.js";
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(6),
@@ -39,6 +37,7 @@ const SignUp = () => {
 
   const handleSubmission = async (e) => {
     e.preventDefault();
+
     if (email !== "" && password !== "") {
       await fetch(apiUrl + '/auth/create', {
         method: 'post',
@@ -51,24 +50,25 @@ const SignUp = () => {
           password: password,
         }),
       })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('error ' + res.status);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (data.status === 'ERROR') {
-          throw new Error(data.response);
-        }
-        else {
-          alert('Sign-up successful.');
-          //loggin state will be recorded in the singin page
-          setNextPage(true);
-          // TODO: redirect to login
-        }
-      })
-      .catch(alert);
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('error ' + res.status);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          if (data.status === 'ERROR') {
+            throw new Error(data.response);
+          }
+          else {
+            alert('Sign-up successful.');
+            //loggin state will be recorded in the singin page
+            setNextPage(true);
+            // TODO: redirect to login
+
+          }
+        })
+        .catch(alert);
     }
   };
 
