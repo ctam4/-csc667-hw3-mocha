@@ -18,10 +18,10 @@ const useStyles = makeStyles(theme => ({
 const NavBar = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const isLogged = useSelector(state => state.isLoggedIn);
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
 
   const logout = () => {
-    if (isLogged) {
+    if (isLoggedIn) {
       dispatch(setIsLoggedIn(false))
       return <Redirect to="/" />
     } else {

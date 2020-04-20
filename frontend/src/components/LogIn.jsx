@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 const LogIn = () => {
 
   const dispatch = useDispatch();
-  const reduxIsLogged = useSelector(state => state.isLoggedIn);
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
 
   const classes = useStyles();
   const [cookies, setCookie] = useCookies(["token"]);
@@ -89,7 +89,7 @@ const LogIn = () => {
     dispatch(setEmail(userEmail));
     dispatch(setPassword(userPassword));
 
-    console.log(reduxIsLogged);
+    console.log(isLoggedIn);
   };
 
   return (
@@ -150,7 +150,7 @@ const LogIn = () => {
           </Grid>
         </form>
       </div>
-      {reduxIsLogged && <Redirect to="./Notes" />}
+      {isLoggedIn && <Redirect to="./Notes" />}
     </Container>
   );
 };

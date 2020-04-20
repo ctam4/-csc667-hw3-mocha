@@ -1,7 +1,7 @@
 import {
   ADD_NOTE,
   REMOVE_NOTE,
-  USER_SET_LOGGIN,
+  USER_SET_LOGIN,
   USER_SET_PASSWORD,
   USER_SET_EMAIL,
 } from "../actions/actions";
@@ -40,7 +40,7 @@ function rootReducer(state = DEFAULT_STATE, action) {
         ...state,
         password: action.password,
       };
-      case USER_SET_LOGGIN:
+    case USER_SET_LOGIN:
       return {
         ...state,
         isLoggedIn: action.isLoggedIn,
