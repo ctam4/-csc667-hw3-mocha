@@ -33,7 +33,7 @@ router.post('/get', async (req, res) => {
     .lrange(decoded[0], 0, -1)
     .then((reply) => {
       status = 'OK';
-      response = JSON.stringify(reply);
+      response = reply;
     })
     .catch((err) => {
       status = 'ERROR';
