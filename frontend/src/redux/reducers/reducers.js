@@ -1,6 +1,4 @@
 import {
-  ADD_NOTE,
-  REMOVE_NOTE,
   USER_SET_LOGIN,
   USER_SET_PASSWORD,
   USER_SET_EMAIL,
@@ -15,21 +13,6 @@ const DEFAULT_STATE = {
 
 function rootReducer(state = DEFAULT_STATE, action) {
   switch (action.type) {
-    case ADD_NOTE:
-      return {
-        ...state,
-        notes: [
-          ...state.notes,
-          {
-            content: action.content,
-          }
-        ]
-      };
-    case REMOVE_NOTE:
-      return {
-        ...state,
-        notes: state.notes.filter((note, index) => index !== action.id),
-      };
     case USER_SET_EMAIL:
       return {
         ...state,

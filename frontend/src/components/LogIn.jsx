@@ -78,11 +78,8 @@ const LogIn = () => {
         })
         .catch(alert);
     }
-
     dispatch(setEmail(userEmail));
     dispatch(setPassword(userPassword));
-
-    console.log(isLoggedIn);
   };
 
   return (
