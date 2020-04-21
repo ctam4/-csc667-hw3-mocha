@@ -100,7 +100,6 @@ const LogIn = () => {
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="email"
                 type="email"
                 autoComplete="email"
                 value={userEmail}
@@ -112,7 +111,6 @@ const LogIn = () => {
                 variant="outlined"
                 required
                 fullWidth
-                name="password"
                 label="Password"
                 type="password"
                 id="password"

@@ -111,7 +111,7 @@ const Notes = () => {
               <TextField
                 required
                 type="text"
-                name="content"
+                id="notesinput"
                 placeholder="Write here"
                 value={notesinput}
                 onChange={e => setContent(e.target.value)}
@@ -121,6 +121,7 @@ const Notes = () => {
             <Grid xs={2} md={1} item>
               <Button
                 type="submit"
+                id="submit"
                 fullWidth
                 color="secondary"
                 variant="outlined"
@@ -132,7 +133,7 @@ const Notes = () => {
         </form>
       </div>
       <hr />
-      <ul>
+      <ul id="notes">
         {notes.map((note) => (
         <ListItem>
           <ListItemText>{note}</ListItemText>
