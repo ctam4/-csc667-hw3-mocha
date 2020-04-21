@@ -71,11 +71,10 @@ const LogIn = () => {
         .then(data => {
           if (data.status === "ERROR") {
             throw new Error(data.response);
-          } else {
-            setCookie("token", data.params.token);
-            dispatch(setIsLoggedIn(true));
-            alert("Log-in successful.");
           }
+          setCookie("token", data.params.token);
+          dispatch(setIsLoggedIn(true));
+          alert("Log-in successful.");
         })
         .catch(alert);
     }

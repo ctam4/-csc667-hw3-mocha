@@ -60,11 +60,9 @@ const SignUp = () => {
           if (data.status === 'ERROR') {
             throw new Error(data.response);
           }
-          else {
-            alert('Sign-up successful.');
-            //loggin state will be recorded in the singin page
-            setNextPage(true);
-          }
+          alert('Sign-up successful.');
+          //loggin state will be recorded in the singin page
+          setNextPage(true)
         })
         .catch(alert);
     }
